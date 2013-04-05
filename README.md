@@ -8,7 +8,7 @@ A terminal.js instance offers the following methods:
 
 - .html()
   
-Returns the top DOM element of the terminal instance.
+  Returns the top DOM element of the terminal instance.
 
 - .print(message)
   Prints the message on a new line.
