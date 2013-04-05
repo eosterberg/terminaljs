@@ -7,7 +7,6 @@ terminal.js is a dead simple JavaScript library for emulating a shell environmen
 A terminal.js instance offers the following methods:
 
 - .html()
-  
   Returns the top DOM element of the terminal instance.
 
 - .print(message)
@@ -34,3 +33,5 @@ A terminal.js instance offers the following methods:
 
 - .blinkingCursor(boolean)
   Set to true by default.
+
+Read more at: erikosterberg.com/terminaljs
