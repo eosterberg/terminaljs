@@ -49,7 +49,7 @@ terminal = (function () {
 			newLine.textContent = string;
 			terminal_output.appendChild(newLine);
 		};
-		var input = function (string, callback) {
+		var _input = function (string, show_input ,callback) {
 			var inputField = document.createElement('input');
 			setInputStyling(inputField);
 			terminal_input_line.textContent = '';
@@ -74,14 +74,18 @@ terminal = (function () {
 					e.preventDefault();
 				} else if (e.which !== 13) {
 					setTimeout(function () {
-						printLetter(inputField);
+						if (show_input){
+							printLetter(inputField);
+						}
 					}, 1);
 				}
 			}, false);
 			inputField.addEventListener('keyup', function (e) {
 				if (e.which === 13) {
 					terminal_input.style.display = 'none';
-					print(inputField.value);
+					if (show_input){
+						print(inputField.value);
+					}
 					terminal_window.removeChild(inputField);
 					clearInterval(cursorInterval);
 					if (typeof callback == 'function') {
@@ -99,6 +103,12 @@ terminal = (function () {
 			} else {
 				inputField.focus();
 			}
+		};
+		var password = function (string, callback) {
+			_input(string, false, callback);
+		};
+		var input = function (string, callback) {
+			_input(string, false, callback);
 		};
 		var clear = function () {
 			terminal_output.innerHTML = '';
