@@ -108,7 +108,7 @@ terminal = (function () {
 			_input(string, false, callback);
 		};
 		var input = function (string, callback) {
-			_input(string, false, callback);
+			_input(string, true, callback);
 		};
 		var clear = function () {
 			terminal_output.innerHTML = '';
@@ -195,6 +195,7 @@ terminal = (function () {
 			html: html,
 			print: print,
 			input: input,
+			password: password,
 			clear: clear,
 			sleep: sleep,
 			beep: beep,
