@@ -16,7 +16,7 @@ A terminal.js instance offers the following methods:
   Prints the message, and shows a prompt where the user can write. When the user presses enter, the callback function fires. The callback takes one argument, which is the user input.
 
 - .password(message, callback)
-  The same as input but the input of user will be hidden just like the old-fashined terminal.
+  The same as input but the input of the user will be hidden just like an old-fashioned terminal.
 
 - .clear()
   Clears the screen.
