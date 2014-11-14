@@ -16,7 +16,7 @@
 			var t1 = terminal()
 			t1.setHeight("200px")
 			t1.setWidth('600px')
-			document.body.appendChild(t1.html())
+			document.body.appendChild(t1.html)
 
 			t1.print('Hello, world!')
 			t1.input('Whats your name?', function (input) {
@@ -28,7 +28,7 @@
 			t2.setWidth('650px')
 			t2.setBackgroundColor('blue')
 			t2.blinkingCursor(false)
-			document.body.appendChild(t2.html())
+			document.body.appendChild(t2.html)
 
 			t2.print('Hello again!')
 			t2.input('Whats your name again?', function (input) {
@@ -39,7 +39,7 @@
 			t3.setHeight("180px")
 			t3.setWidth('550px')
 			t3.setBackgroundColor('green')
-			document.body.appendChild(t3.html())
+			document.body.appendChild(t3.html)
 			t3.password('Enter password:', function (password) {
 				t3.print('Your password is: ' + password)
 			})
