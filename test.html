@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8"/>
+		<title>terminal.js test</title>
+		<script src="terminal.js"></script>
+	</head>
+	<body>
+		<h1>terminal.js test</h1>
+
+		<button onclick="t1.beep()">Play the beep!</button>
+		<br>
+		<br>
+
+		<script>
+			var t1 = terminal()
+			t1.setHeight("200px")
+			t1.setWidth('600px')
+			document.body.appendChild(t1.html())
+
+			t1.print('Hello, world!')
+			t1.input('Whats your name?', function (input) {
+				t1.print('Welcome, ' + input)
+			})
+
+			var t2 = terminal()
+			t2.setHeight("250px")
+			t2.setWidth('650px')
+			t2.setBackgroundColor('blue')
+			t2.blinkingCursor(false)
+			document.body.appendChild(t2.html())
+
+			t2.print('Hello again!')
+			t2.input('Whats your name again?', function (input) {
+				t2.print('Welcome again, ' + input)
+			})
+
+			var t3 = terminal()
+			t3.setHeight("180px")
+			t3.setWidth('550px')
+			t3.setBackgroundColor('green')
+			document.body.appendChild(t3.html())
+			t3.password('Enter password:', function (password) {
+				t3.print('Your password is: ' + password)
+			})
+
+		</script>
+
+	</body>
+</html>
