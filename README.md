@@ -3,38 +3,44 @@ terminaljs
 
 terminal.js is a dead simple JavaScript library for emulating a shell environment.
 
+###Initialization
 
-A terminal.js instance offers the following methods:
+    var myTerminal = new Terminal(id)
 
-- .html()
-  Returns the top DOM element of the terminal instance.
+###Properties and methods
 
-- .print(message)
-  Prints the message on a new line.
+    .html
+This is the top DOM element of the terminal instance. If you want to modify styling via CSS, all instances belong to a .Terminal class. The element will also get the ID from the constructor argument.
 
-- .input(message, callback)
-  Prints the message, and shows a prompt where the user can write. When the user presses enter, the callback function fires. The callback takes one argument, which is the user input.
+    .print(message)
+Prints the message on a new line.
 
-- .password(message, callback)
-  The same as input but the input of the user will be hidden just like an old-fashioned terminal.
+    .input(message, callback)
+Prints the message, and shows a prompt where the user can write. When the user presses enter, the callback function fires. The callback takes one argument, which is the user input.
 
-- .clear()
-  Clears the screen.
+    .password(message, callback)
+The same as input but the input of the user will be hidden just like an old-fashioned terminal.
 
-- .sleep(milliseconds, callback)
-  Works exactly like the JavaScript "setTimeout" function. Waits for the number of milliseconds given, then executes the callback.
+    .confirm(message, callback)
+Displays a confirm message, with a " (y/n)" automatically appended at the end. The callback receives the yes/no value as a boolean.
 
-- .beep()
-  Plays a retro digital tone.
+    .clear()
+Clears the screen.
 
-- .setTextSize()
-- .setTextColor()
-- .setBackgroundColor()
-- .setWidth()
-- .setHeight()
-  All the ".set" methods accepts any CSS-compliant value.
+    .sleep(milliseconds, callback)
+Works exactly like the JavaScript "setTimeout" function. Waits for the number of milliseconds given, then executes the callback.
 
-- .blinkingCursor(boolean)
-  Set to true by default.
+    .beep()
+Plays a retro digital tone.
 
-Read more at: erikosterberg.com/terminaljs
+    .setTextSize()
+    .setTextColor()
+    .setBackgroundColor()
+    .setWidth()
+    .setHeight()
+All the ".set" methods accepts any CSS-compliant value.
+
+    .blinkingCursor(boolean)
+Set to true by default.
+
+Read more at: [erikosterberg.com/terminaljs](http://www.erikosterberg.com/terminaljs)
