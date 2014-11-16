@@ -1,13 +1,15 @@
+/*! terminal.js v2.0 | (c) 2014 Erik Österberg | https://github.com/eosterberg/terminaljs */
+
 var Terminal = (function () {
 	// PROMPT_TYPE
 	var PROMPT_INPUT = 1, PROMPT_PASSWORD = 2, PROMPT_CONFIRM = 3
 
-	var fireCursorInterval = function (terminalObj) {
+	var fireCursorInterval = function (inputField, terminalObj) {
 		var cursor = terminalObj._cursor
 		setTimeout(function () {
-			if (terminalObj.html.parentElement && terminalObj._shouldBlinkCursor) {
+			if (inputField.parentElement && terminalObj._shouldBlinkCursor) {
 				cursor.style.visibility = cursor.style.visibility === 'visible' ? 'hidden' : 'visible'
-				fireCursorInterval(terminalObj)
+				fireCursorInterval(inputField, terminalObj)
 			} else {
 				cursor.style.visibility = 'visible'
 			}
@@ -27,9 +29,9 @@ var Terminal = (function () {
 		inputField.style.fontSize = '0.2em'
 
 		terminalObj._inputLine.textContent = ''
-		fireCursorInterval(terminalObj)
 		terminalObj._input.style.display = 'block'
 		terminalObj.html.appendChild(inputField)
+		fireCursorInterval(inputField, terminalObj)
 
 		if (message.length) terminalObj.print(PROMPT_TYPE === PROMPT_CONFIRM ? message + ' (y/n)' : message)
 
