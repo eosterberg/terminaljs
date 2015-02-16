@@ -29,12 +29,14 @@
 			t1.input('Whats your name?', function (input) {
 				t1.print('Welcome, ' + input)
 
+
 				t2.sleep(1000, function () {
 					t2.print('Hello again!')
 					t2.input('Whats your name again?', function (input) {
 						t2.print('Welcome again, ' + input)
 					})
 				})
+				t1.input("Well "+input+", Within this terminal, you can arrow up to see your previous input.")
 			})
 
 			var t3 = new Terminal('terminal_3')
@@ -43,7 +45,8 @@
 			t3.setBackgroundColor('green')
 			document.body.appendChild(t3.html)
 			t3.password('Enter password:', function (password) {
-				t3.print('Your password is: ' + password)
+				t3.print('Your password is: ' + password);
+				t3.input("Within this terminal, you should not be able to arrow to your previous input")
 			})
 
 			var paragraph = document.createElement("p")
@@ -59,6 +62,23 @@
 			t4.confirm('Are you sure?', function (didConfirm) {
 				t4.print(didConfirm ? 'OK' : 'Why not?')
 			})
+
+			var counter = 0;
+			var t5 = new Terminal()
+			t5.setHeight("180px")
+			t5.setWidth('100%')
+			t5.setBackgroundColor('black')
+			document.body.appendChild(t5.html)
+			t5.input("Enter to start loading.", function(){
+				t5.load(
+					'pylons', 
+					'Constructing additional pylons...',
+					50,
+					function (){return counter+=3;},
+					function (didConfirm) { t5.print('Pylons constructed');}
+					);
+			});
+
 
 		</script>
 

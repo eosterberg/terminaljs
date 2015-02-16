@@ -3,11 +3,35 @@ terminaljs
 
 terminal.js is a dead simple JavaScript library for emulating a shell environment.
 
+
 ###Initialization
 
     var myTerminal = new Terminal(id)
 
 ###Properties and methods
+
+
+CODE MARK IVANOWICH HAS CONTRIBUTED
+    .empty()
+Prints a blank new line. (HTML contents are &nbsp;)
+
+    .printraw(html)
+Prints html-formatted text on a new line. Links and images can be added via respective HTML formatting.
+
+    .load(name, message, width, progress, callback)
+Generates a new line with an Id of 'name', and a loading message provided. A loading bar will be generated beside the message with the width provided, in characters. Progress function will be called once every half second to update the progress bar. Progress function should return an integer between 0-100. Progress function will stop and execute callback function when returned value is 100 or greater.
+
+    .clearhistory()
+Clears the previous input history.
+
+    .history
+This is an array of strings that is the input history
+
+    .lasthistory
+Default value of -1, this is the last input displayed from history. This allows scrolling up/down through previous inputs via arrow keys, and clears the input field when down is pressed past defined history.
+
+
+
 
     .html
 This is the top DOM element of the terminal instance. If you want to modify styling via CSS, all instances belong to a .Terminal class. The element will also get the ID from the constructor argument.
@@ -49,7 +73,8 @@ Read more at: [erikosterberg.com/terminaljs](http://www.erikosterberg.com/termin
 
 The MIT License (MIT)
 
-Copyright (c) 2014 Erik Österberg
+Original Works Copyright (c) 2014 Erik Österberg
+This Contribution is Copyright (c) 2015 Mark Ivanowich
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
