@@ -11,7 +11,8 @@ terminal.js is a dead simple JavaScript library for emulating a shell environmen
 ###Properties and methods
 
 
-CODE MARK IVANOWICH HAS CONTRIBUTED
+CODE MARK IVANOWICH HAS CONTRIBUTED:
+
     .empty()
 Prints a blank new line. (HTML contents are &nbsp;)
 
