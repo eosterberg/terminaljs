@@ -3,11 +3,11 @@ terminaljs
 
 terminal.js is a dead simple JavaScript library for emulating a shell environment.
 
-###Initialization
+### Initialization
 
     var myTerminal = new Terminal(id)
 
-###Properties and methods
+### Properties and methods
 
     .html
 This is the top DOM element of the terminal instance. If you want to modify styling via CSS, all instances belong to a .Terminal class. The element will also get the ID from the constructor argument.
@@ -45,7 +45,7 @@ Set to true by default.
 
 Read more at: [erikosterberg.com/terminaljs](http://www.erikosterberg.com/terminaljs)
 
-###License
+### License
 
 The MIT License (MIT)
 
