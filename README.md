@@ -1,4 +1,4 @@
-terminaljs
+﻿terminaljs
 ==========
 
 terminal.js is a dead simple JavaScript library for emulating a shell environment.
