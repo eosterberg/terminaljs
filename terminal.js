@@ -1,24 +1,28 @@
 ﻿/*! terminal.js v2.0 | (c) 2014 Erik Österberg | https://github.com/eosterberg/terminaljs */
 
-/*
+/**
+ * This class provides a div with terminal functionalities
+ *
  * id : file 20190208°1921
+ * version : 20190209°0241
  * encoding : UTF-8-with-BOM
- * changes : https://github.com/normai/terminaljs
- *    • Replace tabs by spaces
- *    • Supplement semicolons
- *    •
+ * changes :
+ *    • Replace tabs by spaces, supplement semicolons
+ *    • Add beep.mp3 and beep.ogg [files 20190208°1845]
+ *       from http://www.erikosterberg.com/terminaljs/
+ *    • Add function getThisScriptFolder. The script tag in the
+ *       page now must define attribute id="TerminalJsScriptTag"
  */
-
 var Terminal = (function () {
 
-   // PROMPT_TYPE
+   // Values for PROMPT_TYPE
    var PROMPT_INPUT = 1, PROMPT_PASSWORD = 2, PROMPT_CONFIRM = 3;
 
    var fireCursorInterval = function (inputField, terminalObj) {
       var cursor = terminalObj._cursor;
       setTimeout(function () {
          if (inputField.parentElement && terminalObj._shouldBlinkCursor) {
-            cursor.style.visibility = cursor.style.visibility === 'visible' ? 'hidden' : 'visible';
+            cursor.style.visibility = (cursor.style.visibility === 'visible') ? 'hidden' : 'visible';
             fireCursorInterval(inputField, terminalObj);
          } else {
             cursor.style.visibility = 'visible';
@@ -27,6 +31,7 @@ var Terminal = (function () {
    };
 
    var firstPrompt = true;
+
    promptInput = function (terminalObj, message, PROMPT_TYPE, callback) {
       var shouldDisplayInput = (PROMPT_TYPE === PROMPT_INPUT);
       var inputField = document.createElement('input');
@@ -43,7 +48,8 @@ var Terminal = (function () {
       terminalObj.html.appendChild(inputField);
       fireCursorInterval(inputField, terminalObj);
 
-      if (message.length) terminalObj.print(PROMPT_TYPE === PROMPT_CONFIRM ? message + ' (y/n)' : message);
+      if (message.length)
+         terminalObj.print(PROMPT_TYPE === PROMPT_CONFIRM ? message + ' (y/n)' : message);
 
       inputField.onblur = function () {
          terminalObj._cursor.style.display = 'none';
@@ -67,11 +73,13 @@ var Terminal = (function () {
             }, 1);
          }
       };
+
       inputField.onkeyup = function (e) {
          if (PROMPT_TYPE === PROMPT_CONFIRM || e.which === 13) {
             terminalObj._input.style.display = 'none';
             var inputValue = inputField.value;
-            if (shouldDisplayInput) terminalObj.print(inputValue);
+            if (shouldDisplayInput)
+               terminalObj.print(inputValue);
             terminalObj.html.removeChild(inputField);
             if (typeof(callback) === 'function') {
                if (PROMPT_TYPE === PROMPT_CONFIRM) {
@@ -80,6 +88,7 @@ var Terminal = (function () {
             }
          }
       };
+
       if (firstPrompt) {
          firstPrompt = false;
          setTimeout(function () { inputField.focus(); }, 50);
@@ -88,19 +97,25 @@ var Terminal = (function () {
       }
    };
 
-   var terminalBeep;
+   ////var terminalBeep;
+   var terminalBeep = null;
 
    var TerminalConstructor = function (id) {
-      if (!terminalBeep) {
+      if (! terminalBeep) {
+         var sAudioUrl = Trekta.getThisScriptFolder() + 'beep.';
+
          terminalBeep = document.createElement('audio');
-         var source = '<source src="http://www.erikosterberg.com/terminaljs/beep.'
-         terminalBeep.innerHTML = source + 'mp3" type="audio/mpeg">' + source + 'ogg" type="audio/ogg">';
+         terminalBeep.innerHTML = '<source src="' + sAudioUrl + 'mp3" type="audio/mpeg">'
+                                 + '<source src="' + sAudioUrl + 'ogg" type="audio/ogg">'
+                                  ;
          terminalBeep.volume = 0.05;
       }
 
       this.html = document.createElement('div');
       this.html.className = 'Terminal';
-      if (typeof(id) === 'string') { this.html.id = id; }
+      if (typeof(id) === 'string') {
+         this.html.id = id;
+      }
 
       this._innerWindow = document.createElement('div');
       this._output = document.createElement('p');
@@ -193,3 +208,25 @@ var Terminal = (function () {
 
    return TerminalConstructor;
 }());
+
+/**
+ * Use existing namespace or create it
+ *
+ * @id 20190209°0211
+ */
+Trekta = window.Trekta || {};
+
+/**
+ * Retrieve URL of the folder where this script resides
+ *
+ * @id 20190209°0221
+ */
+Trekta.getThisScriptFolder = ( function() {
+   var sThisScriptUrl = document.getElementById('TerminalJsScriptTag').src;
+   sThisScriptUrl = sThisScriptUrl.substring(0, sThisScriptUrl.length - 'terminal.js'.length );
+   return function() {
+      return sThisScriptUrl;
+   };
+})();
+
+/* eof */
