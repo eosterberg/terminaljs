@@ -1,7 +1,12 @@
-﻿terminaljs
-==========
+﻿#terminal.js <small><small><small>v0.2.1 (20190213°0333)</small></small></small>
 
-terminal.js is a dead simple JavaScript library for emulating a shell environment.
+terminal.js by Erik Osterberg is a dead simple JavaScript library for emulating a shell environment.
+
+_The present flavour is derivative by Norber C. Maier. The changes are :_
+- _The beep files are on-board_
+- _Some cursor cosmetics is applied_
+- _For the beep files to be found, the script tag must have an ID attribute :_
+   _<small>&lt;script&nbsp;src="./terminal.js"&nbsp;**id="TerminalJsScriptTag"**&gt;&lt;/script&gt;</small>_
 
 ### Initialization
 
@@ -69,4 +74,4 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 
-<sub>/* file 20190208°1941 */</sub>
+<small><small>܀[project 20190213°0211][file 20190208°1941]</small></small>
