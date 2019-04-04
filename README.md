@@ -1,4 +1,4 @@
-﻿#terminal.js <small><small><small>v0.2.1 (20190213°0333)</small></small></small>
+﻿# terminal.js <sup><sub><sub>v0.2.1 — 20190213°0333</sub></sub></sup>
 
 terminal.js by Erik Osterberg is a dead simple JavaScript library for emulating a shell environment.
 
@@ -74,4 +74,4 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 
-<small><small>܀[project 20190213°0211][file 20190208°1941]</small></small>
+<sup><sub><sub>܀[project 20190213°0211][file 20190208°1941]</sub></sub></sup>
