@@ -5,6 +5,7 @@ terminal.js by Erik Österberg is a dead simple JavaScript library for emulating
 _The present flavour is a derivative by Norber C. Maier 2019. The changes are :_
 - _Beep file is embedded (IE >=10)_
 - _Some cursor cosmetics_
+- _Minified version created with Google Closure Compiler_
 
 ### Initialization
 
