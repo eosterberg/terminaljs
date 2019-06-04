@@ -115,21 +115,20 @@ var Terminal = (function () {
 		if (! terminalBeep) {
 			terminalBeep = document.createElement('audio');
 
-         ///// retrieve path to this script [line 20190209°1313]
-         //////var source = '<source src="http://www.erikosterberg.com/terminaljs/beep.';
-			//////terminalBeep.innerHTML = source + 'mp3" type="audio/mpeg">' + source + 'ogg" type="audio/ogg">';
-         //////var sAudioUrl = Trekta.getThisScriptFolder() + 'beep.';
-         ///
-         ///   // [line 20190209°1315]
-         ///   terminalBeep.innerHTML = '<source src="' + sAudioUrl + 'mp3" type="audio/mpeg">'
-         ///                           + '<source src="' + sAudioUrl + 'ogg" type="audio/ogg">'
-         ///                            ;
+         // // // retrieve path to this script [line 20190209°1313]
+         // // var source = '<source src="http://www.erikosterberg.com/terminaljs/beep.';
+			// // terminalBeep.innerHTML = source + 'mp3" type="audio/mpeg">' + source + 'ogg" type="audio/ogg">';
+         // // var sAudioUrl = Trekta.getThisScriptFolder() + 'beep.';
+         // //
+         // // // [line 20190209°1315]
+         // // terminalBeep.innerHTML = '<source src="' + sAudioUrl + 'mp3" type="audio/mpeg">'
+         // //                         + '<source src="' + sAudioUrl + 'ogg" type="audio/ogg">'
+         // //                          ;
 
          // [line 20190325°0753]
-         // note : The exact mime-type of an MP3 file is a matter of discussion.
+         // note : The exact mime-type of an MP3 file is a matter of discussion
          var sData = 'data:audio/mp3;base64,' + sBase64_Beep_Mp3;
          terminalBeep.innerHTML = '<source type="audio/mp3" src="' + sData + '">';
-
          terminalBeep.volume = 0.05;
 		}
 

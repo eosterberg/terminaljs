@@ -1,8 +1,8 @@
-﻿# TerminalJs <sup><sub><sub>v0.2.3 — 20190326°0111</sub></sub></sup>
+﻿# TerminalJs <sup><sub><sub>v0.2.3.. — 20190326°0111..</sub></sub></sup>
 
 terminal.js by Erik Österberg is a dead simple JavaScript library for emulating a shell environment.
 
-_The present flavour is a derivative by Norber C. Maier 2019. The changes are :_
+_The present flavour is a derivative by Norbert C. Maier 2019. The changes are :_
 - _Beep file is embedded (IE >=10)_
 - _Some cursor cosmetics_
 - _Minified version created with Google Closure Compiler_
