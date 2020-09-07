@@ -28,8 +28,8 @@ var Terminal = (function () {
 		inputField.style.border = 'none'
 		inputField.style.opacity = '0'
 		inputField.style.fontSize = '0.2em'
-
-		terminalObj._inputLine.textContent = ''
+		terminalObj._inputLine.textPrefix = '$ '
+		terminalObj._inputLine.textContent = terminalObj._inputLine.textPrefix
 		terminalObj._input.style.display = 'block'
 		terminalObj.html.appendChild(inputField)
 		fireCursorInterval(inputField, terminalObj)
@@ -50,7 +50,10 @@ var Terminal = (function () {
 		}
 
 		inputField.onkeydown = function (e) {
-			if (e.which === 37 || e.which === 39 || e.which === 38 || e.which === 40 || e.which === 9) {
+                        if ((e.which === 8 && inputField.value.length == terminalObj._inputLine.textPrefix) || inputField.value.length <= terminalObj._inputLine.textPrefix) {
+                            terminalObj._inputLine.textContent = terminalObj._inputLine.textPrefix
+                            e.preventDefault()
+                        } else if (e.which === 37 || e.which === 39 || e.which === 38 || e.which === 40 || e.which === 9) {
 				e.preventDefault()
 			} else if (shouldDisplayInput && e.which !== 13) {
 				setTimeout(function () {
@@ -75,7 +78,7 @@ var Terminal = (function () {
 							terminalObj.input('', false);
 						}
 					}
-					xhr.send("ssh="+inputValue);
+					xhr.send("prefix="+ terminalObj._inputLine.textPrefix +"&ssh="+inputValue);
 				} else if (typeof(callback) === 'function') {
 					if (PROMPT_TYPE === PROMPT_CONFIRM) {
 						callback(inputValue.toUpperCase()[0] === 'Y' ? true : false)
@@ -105,7 +108,7 @@ var Terminal = (function () {
 		this.html.className = 'Terminal'
 		if (typeof(id) === 'string') { this.html.id = id }
 
-		this._innerWindow = document.createElement('div')
+		this._innerWindow = document.createElement('pre')
 		this._output = document.createElement('p')
 		this._inputLine = document.createElement('span') //the span element where the users input is put
 		this._cursor = document.createElement('span')
