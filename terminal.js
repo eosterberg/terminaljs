@@ -18,6 +18,7 @@ var Terminal = (function () {
 
 	var firstPrompt = true;
 	promptInput = function (terminalObj, message, PROMPT_TYPE, callback) {
+
 		var shouldDisplayInput = (PROMPT_TYPE === PROMPT_INPUT)
 		var inputField = document.createElement('input')
 
@@ -63,7 +64,19 @@ var Terminal = (function () {
 				var inputValue = inputField.value
 				if (shouldDisplayInput) terminalObj.print(inputValue)
 				terminalObj.html.removeChild(inputField)
-				if (typeof(callback) === 'function') {
+				
+				if (terminalObj._backend) {
+					var xhr = new XMLHttpRequest()
+					xhr.open("POST", terminalObj._backend, true)
+					xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded")
+					xhr.onreadystatechange = function() {
+						if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
+							terminalObj.print(xhr.responseText)
+							terminalObj.input('', false);
+						}
+					}
+					xhr.send("ssh="+inputValue);
+				} else if (typeof(callback) === 'function') {
 					if (PROMPT_TYPE === PROMPT_CONFIRM) {
 						callback(inputValue.toUpperCase()[0] === 'Y' ? true : false)
 					} else callback(inputValue)
@@ -136,6 +149,11 @@ var Terminal = (function () {
 			this._input.style.fontSize = size
 		}
 
+		this.connect = function (url) {
+			this._backend = url
+			promptInput(this, '', 1, false)
+		}
+
 		this.setTextColor = function (col) {
 			this.html.style.color = col
 			this._cursor.style.background = col
@@ -169,6 +187,7 @@ var Terminal = (function () {
 		this.setTextSize('1em')
 		this.setWidth('100%')
 		this.setHeight('100%')
+		this._backend = false
 
 		this.html.style.fontFamily = 'Monaco, Courier'
 		this.html.style.margin = '0'

@@ -9,6 +9,9 @@ terminal.js is a dead simple JavaScript library for emulating a shell environmen
 
 ### Properties and methods
 
+    .connect(url)
+You can set url address to get all the responses with the XHR. When you are running terminal with connect() things become real - it means that your backend is now in charge of terminal output.
+
     .html
 This is the top DOM element of the terminal instance. If you want to modify styling via CSS, all instances belong to a .Terminal class. The element will also get the ID from the constructor argument.
 
