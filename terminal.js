@@ -16,7 +16,7 @@ var Terminal = (function () {
 		}, 500)
 	}
 
-	var firstPrompt = true;
+	var firstPrompt = true
 	promptInput = function (terminalObj, message, PROMPT_TYPE, callback) {
 
 		var shouldDisplayInput = (PROMPT_TYPE === PROMPT_INPUT)
@@ -50,10 +50,10 @@ var Terminal = (function () {
 		}
 
 		inputField.onkeydown = function (e) {
-                        if ((e.which === 8 && inputField.value.length == terminalObj._inputLine.textPrefix) || inputField.value.length <= terminalObj._inputLine.textPrefix) {
-                            terminalObj._inputLine.textContent = terminalObj._inputLine.textPrefix
-                            e.preventDefault()
-                        } else if (e.which === 37 || e.which === 39 || e.which === 38 || e.which === 40 || e.which === 9) {
+			if ((e.which === 8 && inputField.value.length == terminalObj._inputLine.textPrefix) || inputField.value.length <= terminalObj._inputLine.textPrefix) {
+				terminalObj._inputLine.textContent = terminalObj._inputLine.textPrefix
+				e.preventDefault()
+			} else if (e.which === 37 || e.which === 39 || e.which === 38 || e.which === 40 || e.which === 9) {
 				e.preventDefault()
 			} else if (shouldDisplayInput && e.which !== 13) {
 				setTimeout(function () {
@@ -65,6 +65,12 @@ var Terminal = (function () {
 			if (PROMPT_TYPE === PROMPT_CONFIRM || e.which === 13) {
 				terminalObj._input.style.display = 'none'
 				var inputValue = inputField.value
+				if (inputValue == terminalObj._inputLine.textPrefix + 'clear') {
+					terminalObj.clear()
+					terminalObj.input('', false)
+					return true
+				}
+				
 				if (shouldDisplayInput) terminalObj.print(inputValue)
 				terminalObj.html.removeChild(inputField)
 				
@@ -75,10 +81,10 @@ var Terminal = (function () {
 					xhr.onreadystatechange = function() {
 						if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
 							terminalObj.print(xhr.responseText)
-							terminalObj.input('', false);
+							terminalObj.input('', false)
 						}
 					}
-					xhr.send("prefix="+ terminalObj._inputLine.textPrefix +"&ssh="+inputValue);
+					xhr.send("prefix="+ terminalObj._inputLine.textPrefix +"&ssh="+inputValue)
 				} else if (typeof(callback) === 'function') {
 					if (PROMPT_TYPE === PROMPT_CONFIRM) {
 						callback(inputValue.toUpperCase()[0] === 'Y' ? true : false)
@@ -192,8 +198,9 @@ var Terminal = (function () {
 		this.setHeight('100%')
 		this._backend = false
 
-		this.html.style.fontFamily = 'Monaco, Courier'
+		this.html.style.fontFamily = 'Ubuntu Mono, Monaco, Courier, monospace'
 		this.html.style.margin = '0'
+		this.html.style.overflow = 'auto'
 		this._innerWindow.style.padding = '10px'
 		this._input.style.margin = '0'
 		this._output.style.margin = '0'
