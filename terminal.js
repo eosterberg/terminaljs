@@ -50,7 +50,7 @@ var Terminal = (function () {
 		}
 
 		inputField.onkeydown = function (e) {
-			if ((e.which === 8 && inputField.value.length == terminalObj._inputLine.textPrefix) || inputField.value.length <= terminalObj._inputLine.textPrefix) {
+			if ((e.which === 8 && inputField.value.length == inputField.value.length) || inputField.value.length <= terminalObj._inputLine.textPrefix) {
 				terminalObj._inputLine.textContent = terminalObj._inputLine.textPrefix
 				e.preventDefault()
 			} else if (e.which === 37 || e.which === 39 || e.which === 38 || e.which === 40 || e.which === 9) {
@@ -70,7 +70,7 @@ var Terminal = (function () {
 					terminalObj.input('', false)
 					return true
 				}
-				
+
 				if (shouldDisplayInput) terminalObj.print(inputValue)
 				terminalObj.html.removeChild(inputField)
 				
