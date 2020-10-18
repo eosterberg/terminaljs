@@ -47,11 +47,10 @@ var Terminal = (function () {
 		terminalObj.html.onclick = function () {
 			inputField.focus()
 		}
-
 		inputField.onkeydown = function (e) {
-			if (e.which === 37 || e.which === 39 || e.which === 38 || e.which === 40 || e.which === 9) {
+			if (e.code === 'ArrowUp' || e.code === 'ArrowRight' || e.code === 'ArrowLeft' || e.code === 'ArrowDown' || e.code === 'Tab') {
 				e.preventDefault()
-			} else if (shouldDisplayInput && e.which !== 13) {
+			} else if (shouldDisplayInput && e.code !== 'Enter') {
 				setTimeout(function () {
 					terminalObj._inputLine.textContent = inputField.value
 				}, 1)
