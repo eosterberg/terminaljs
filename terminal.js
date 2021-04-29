@@ -2,7 +2,7 @@
  * terminal.js v2.0 | (c) 2014 Erik Österberg | https://github.com/eosterberg/terminaljs
  *
  * Modified 2019 by Norbert C. Maier https://github.com/normai/terminaljs/
- * version 0.2.3 — 20190326°0111
+ * version 0.2.4 (20210428°1141)
  * license : MIT License
  */
 
@@ -18,6 +18,9 @@
  *    • Add function getThisScriptFolder. The script tag in the
  *       page now must define attribute id="TerminalJsScriptTag"
  *    • Cosmetics for input prompt (see seq 20190312°0441)
+ * Versions
+ *    • 20210428°1141 v0.2.4 — Just casual streamlining
+ *    • 20190326°0111 v0.2.3 — Operational proof-of-concept
  */
 
 /**
@@ -111,6 +114,12 @@ var Terminal = (function () {
 
 	var terminalBeep;
 
+   /**
+    * This class provides a div with terminal functionalities
+    *
+    * id :
+    * @constructor —
+    */
 	var TerminalConstructor = function (id) {
 		if (! terminalBeep) {
 			terminalBeep = document.createElement('audio');
@@ -250,7 +259,7 @@ var Terminal = (function () {
     *          [ref 20190315°0313] into file 20190209o1233.beep.mp3.b64
     * @note The OGG string were only 34 512 bytes, as opposed to 58 512 bytes
     *         with the MP3 string. But OGG did not work with the MS browsers.
-    * @type String
+    * @type {string}
     */
    var sBase64_Beep_Mp3
            = 'SUQzAgAAAAAfdlRTUwAAEABMb2dpYyBQcm8gOS4xLjhDT00AAGgAZW5naVR1bk5PUk0AIDAwMDA5'
@@ -1013,6 +1022,7 @@ var Terminal = (function () {
  * Use existing namespace or create it
  *
  * @id 20190209°0211
+ * @c_o_n_s_t — Namespace
  */
 /*
 Trekta = window.Trekta || {};

@@ -1,4 +1,4 @@
-﻿# TerminalJs <sup><sub><sub>v0.2.3.. — 20190326°0111..</sub></sub></sup>
+﻿# TerminalJs <sup><sub><sub>v0.2.4 — 20210428°1141</sub></sub></sup>
 
 terminal.js by Erik Österberg is a dead simple JavaScript library for emulating a shell environment.
 
