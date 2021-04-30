@@ -12,35 +12,62 @@
 
    <button onclick="t1.beep()">Play the beep!</button> <br> <br>
 
-   <script> var t1 = new Terminal(); t1.setHeight("200px"); 
-t1.setWidth('600px'); document.body.appendChild(t1.html);
+   <script>
 
-      var t2 = new Terminal(); t2.setHeight("250px"); t2.setWidth('650px'); 
-t2.setBackgroundColor('blue'); t2.blinkingCursor(false); 
-document.body.appendChild(t2.html);
+      var t1 = new Terminal();
+      t1.setHeight("200px");
+      t1.setWidth('600px');
+      document.body.appendChild(t1.html);
 
-      t1.print('Hello, world!'); t1.input('Whats your name?', function (input) { 
-t1.print('Welcome, ' + input);
+      var t2 = new Terminal();
+      t2.setHeight("250px");
+      t2.setWidth('650px');
+      t2.setBackgroundColor('blue');
+      t2.blinkingCursor(false);
+      document.body.appendChild(t2.html);
 
-         t2.sleep(1000, function () { t2.print('Hello again!'); t2.input('Whats 
-your name again?', function (input) { t2.print('Welcome again, ' + input); }); 
-}); });
+      t1.print('Hello, world!');
 
-      var t3 = new Terminal('terminal_3'); t3.setHeight("180px"); 
-t3.setWidth('550px'); t3.setBackgroundColor('green'); 
-document.body.appendChild(t3.html); t3.password('Enter password:', function 
-(password) { t3.print('Your password is: ' + password); });
+      t1.input ( 'Whats your name?', function (input)
+                  {
+                     t1.print('Welcome, ' + input);
+                     t2.sleep(1000, function ()
+                     {
+                          t2.print('Hello again!');
+                          t2.input('Whats your name again?', function (input)
+                          {
+                             t2.print('Welcome again, ' + input);
+                          }); 
+                     });
+                  });
 
-      var paragraph = document.createElement("p"); var t3bySelector = 
-document.querySelector("#terminal_3"); paragraph.innerHTML = t3bySelector && 
-t3bySelector.id ? 'The 3rd terminal has id: ' + t3bySelector.id : 'Assigning an 
-id at initialization doesnt semm to work!' ; 
-document.body.appendChild(paragraph);
+      var t3 = new Terminal('terminal_3');
+      t3.setHeight("180px");
+      t3.setWidth('550px');
+      t3.setBackgroundColor('green');
+      document.body.appendChild(t3.html);
+      t3.password('Enter password:', function (password)
+                        {
+                           t3.print('Your password is: ' + password);
+                        });
 
-      var t4 = new Terminal('terminal_3'); t4.setHeight("180px"); 
-t4.setWidth('550px'); t4.setBackgroundColor('green'); 
-document.body.appendChild(t4.html); t4.confirm('Are you sure?', function 
-(didConfirm) { t4.print(didConfirm ? 'OK' : 'Why not?'); });
+      var paragraph = document.createElement("p");
+      var t3bySelector = document.querySelector("#terminal_3");
+      paragraph.innerHTML = t3bySelector && t3bySelector.id
+                           ? 'The 3rd terminal has id: ' + t3bySelector.id
+                            : 'Assigning an id at initialization doesnt semm to work!'
+                            ; 
+      document.body.appendChild(paragraph);
+
+      var t4 = new Terminal('terminal_3');
+      t4.setHeight("180px");
+      t4.setWidth('550px');
+      t4.setBackgroundColor('green');
+      document.body.appendChild(t4.html);
+      t4.confirm('Are you sure?', function (didConfirm)
+                   {
+                      t4.print(didConfirm ? 'OK' : 'Why not?');
+                   });
 
    </script>
 

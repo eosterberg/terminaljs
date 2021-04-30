@@ -1,0 +1,13 @@
+﻿
+
+   version 20210429°0931 v0.2.5
+   • Supplement Python build script
+
+   ...
+
+   version 20190208°1844
+   • Initial version v0.2.0 from download 20190208°1844, originally tagged v2.0
+   ܀
+
+   ———————————————————————
+   [file 20210429°0911] ܀Ω

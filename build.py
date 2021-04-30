@@ -15,7 +15,7 @@ sSp = ' '
 
 os.chdir(os.path.dirname(__file__))
 
-print('*** TerminalJs Builder ***')
+print('* TerminalJs build *')
 
 # Build yes or no?
 bBuild = True
@@ -36,4 +36,4 @@ if bBuild == True :
 else :
    print(' - is up-to-date')
 
-print('TerminalJs finished.')
+print(' - TerminalJs done.')
