@@ -96,53 +96,65 @@ module.exports = (function () {
 			var newLine = document.createElement('div')
 			newLine.textContent = message
 			this._output.appendChild(newLine)
+			return this
 		}
 
 		this.input = function (message, callback) {
 			promptInput(this, message, PROMPT_INPUT, callback)
+			return this
 		}
 
 		this.password = function (message, callback) {
 			promptInput(this, message, PROMPT_PASSWORD, callback)
+			return this
 		}
 
 		this.confirm = function (message, callback) {
 			promptInput(this, message, PROMPT_CONFIRM, callback)
+			return this
 		}
 
 		this.clear = function () {
 			this._output.innerHTML = ''
+			return this
 		}
 
 		this.sleep = function (milliseconds, callback) {
 			setTimeout(callback, milliseconds)
+			return this
 		}
 
 		this.setTextSize = function (size) {
 			this._output.style.fontSize = size
 			this._input.style.fontSize = size
+			return this
 		}
 
 		this.setTextColor = function (col) {
 			this.html.style.color = col
 			this._cursor.style.background = col
+			return this
 		}
 
 		this.setBackgroundColor = function (col) {
 			this.html.style.background = col
+			return this
 		}
 
 		this.setWidth = function (width) {
 			this.html.style.width = width
+			return this
 		}
 
 		this.setHeight = function (height) {
 			this.html.style.height = height
+			return this
 		}
 
 		this.blinkingCursor = function (bool) {
 			bool = bool.toString().toUpperCase()
 			this._shouldBlinkCursor = (bool === 'TRUE' || bool === '1' || bool === 'YES')
+			return this
 		}
 
 		this._input.appendChild(this._inputLine)
@@ -152,10 +164,10 @@ module.exports = (function () {
 		this.html.appendChild(this._innerWindow)
 
 		this.setBackgroundColor('black')
-		this.setTextColor('white')
-		this.setTextSize('1em')
-		this.setWidth('100%')
-		this.setHeight('100%')
+			.setTextColor('white')
+			.setTextSize('1em')
+			.setWidth('100%')
+			.setHeight('100%')
 
 		this.html.style.fontFamily = 'Monaco, Courier'
 		this.html.style.margin = '0'
