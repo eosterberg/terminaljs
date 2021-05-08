@@ -1,6 +1,6 @@
 /*! terminal.js v2.0 | (c) 2014 Erik Österberg | https://github.com/eosterberg/terminaljs */
 
-var Terminal = (function () {
+module.exports = (function () {
 	// PROMPT_TYPE
 	var PROMPT_INPUT = 1, PROMPT_PASSWORD = 2, PROMPT_CONFIRM = 3
 
