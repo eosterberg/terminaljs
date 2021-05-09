@@ -48,8 +48,11 @@ module.exports = (function () {
 		}
 		inputField.onkeyup = function (e) {
 			if (PROMPT_TYPE === PROMPT_CONFIRM || e.code === "Enter") {
-				terminalObj._input.style.display = 'none';
 				var inputValue = inputField.value;
+				if (inputValue.toUpperCase()[0] !== 'Y' && inputValue.toUpperCase()[0] !== 'N') {
+					return true;
+				}
+				terminalObj._input.style.display = 'none';
 				if (shouldDisplayInput) {
 					terminalObj.print(inputValue);
 				} else {
@@ -179,7 +182,7 @@ module.exports = (function () {
 			.setWidth('100%')
 			.setHeight('100%');
 
-		this.html.style.fontFamily = 'Monaco, Courier';
+		this.html.style.fontFamily = 'Ubuntu Mono, Monaco, Courier';
 		this.html.style.margin = '0';
 		this._innerWindow.style.padding = '10px';
 		this._input.style.margin = '0';
