@@ -1,4 +1,4 @@
-/*! terminal.js v2.0 | (c) 2014 Erik Österberg | https://github.com/eosterberg/terminaljs */
+/*! terminal.js v2.1-alpha | https://github.com/eosterberg/terminaljs */
 
 module.exports = (function () {
 	// PROMPT_TYPE
@@ -78,11 +78,10 @@ module.exports = (function () {
 	}
 
 
-	var TerminalConstructor = function (id) {
+	var TerminalConstructor = function (containerId) {
 
-		this.html = document.createElement('div')
-		this.html.className = 'Terminal'
-		if (typeof(id) === 'string') { this.html.id = id }
+		this.html = document.createElement('div');
+		this.html.className = 'Terminal';
 
 		this._innerWindow = document.createElement('div')
 		this._output = document.createElement('p')
@@ -178,6 +177,14 @@ module.exports = (function () {
 		this._cursor.innerHTML = 'C' //put something in the cursor..
 		this._cursor.style.display = 'none' //then hide it
 		this._input.style.display = 'none'
+
+		if (typeof(containerId) === 'string') { 
+			let container = document.getElementById(containerId)
+			container.innerHTML = ""
+			container.appendChild(this.html)
+		} else {
+			throw "terminal-js-emulator requires (string) parent container id in the constructor";
+		}
 	}
 
 	return TerminalConstructor
