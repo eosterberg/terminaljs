@@ -49,7 +49,7 @@ module.exports = (function () {
 		inputField.onkeyup = function (e) {
 			if (PROMPT_TYPE === PROMPT_CONFIRM || e.code === "Enter") {
 				var inputValue = inputField.value;
-				if (inputValue.toUpperCase()[0] !== 'Y' && inputValue.toUpperCase()[0] !== 'N') {
+				if (PROMPT_TYPE === PROMPT_CONFIRM && (inputValue.toUpperCase()[0] !== 'Y' && inputValue.toUpperCase()[0] !== 'N')) {
 					return true;
 				}
 				terminalObj._input.style.display = 'none';
