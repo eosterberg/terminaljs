@@ -4,18 +4,6 @@ module.exports = (function () {
 	// PROMPT_TYPE
 	var PROMPT_INPUT = 1, PROMPT_PASSWORD = 2, PROMPT_CONFIRM = 3;
 
-	var fireCursorInterval = function (inputField, terminalObj) {
-		var cursor = terminalObj._cursor;
-		setTimeout(function () {
-			if (inputField.parentElement && terminalObj._shouldBlinkCursor) {
-				cursor.style.visibility = cursor.style.visibility === 'visible' ? 'hidden' : 'visible';
-				fireCursorInterval(inputField, terminalObj);
-			} else {
-				cursor.style.visibility = 'visible';
-			}
-		}, 500);
-	}
-
 	var firstPrompt = true;
 	promptInput = function (terminalObj, message, PROMPT_TYPE, callback) {
 		var shouldDisplayInput = (PROMPT_TYPE === PROMPT_INPUT);
@@ -31,7 +19,7 @@ module.exports = (function () {
 		terminalObj._inputLine.textContent = '';
 		terminalObj._input.style.display = 'block';
 		terminalObj.html.appendChild(inputField);
-		fireCursorInterval(inputField, terminalObj);
+		terminalObj.fireCursorInterval(inputField);
 
 		if (message.length) {
 			terminalObj.print(PROMPT_TYPE === PROMPT_CONFIRM ? message + ' (y/n)' : message);
@@ -89,6 +77,8 @@ module.exports = (function () {
 
 	var TerminalConstructor = function (containerId) {
 
+		let terminalObj = this;
+
 		this.html = document.createElement('div');
 		this.html.className = 'Terminal';
 
@@ -97,8 +87,20 @@ module.exports = (function () {
 		this._inputLine = document.createElement('span'); //the span element where the users input is put
 		this._cursor = document.createElement('span');
 		this._input = document.createElement('p'); //the full element administering the user input, including cursor
-
 		this._shouldBlinkCursor = true;
+
+		this.cursorTimer;
+		this.fireCursorInterval = function (inputField) {
+			if (terminalObj.cursorTimer) { clearTimeout(terminalObj.cursorTimer); }
+			terminalObj.cursorTimer = setTimeout(function () {
+				if (inputField.parentElement && terminalObj._shouldBlinkCursor) {
+					terminalObj._cursor.style.visibility = terminalObj._cursor.style.visibility === 'visible' ? 'hidden' : 'visible';
+					terminalObj.fireCursorInterval(inputField);
+				} else {
+					terminalObj._cursor.style.visibility = 'visible';
+				}
+			}, 500);
+		};
 
 		this.print = function (message) {
 			var newLine = document.createElement('div');
