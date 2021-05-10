@@ -6,7 +6,7 @@ module.exports = (function () {
 
 	var firstPrompt = true;
 	promptInput = function (terminalObj, message, PROMPT_TYPE, callback) {
-		var shouldDisplayInput = (PROMPT_TYPE === PROMPT_INPUT);
+		var shouldDisplayInput = (PROMPT_TYPE === PROMPT_INPUT || PROMPT_TYPE === PROMPT_CONFIRM);
 		var inputField = document.createElement('input');
 
 		inputField.style.position = 'absolute';
@@ -40,31 +40,55 @@ module.exports = (function () {
 		inputField.onkeydown = function (e) {
 			if (e.code === 'ArrowUp' || e.code === 'ArrowRight' || e.code === 'ArrowLeft' || e.code === 'ArrowDown' || e.code === 'Tab') {
 				e.preventDefault();
-			} else if (shouldDisplayInput && e.code !== 'Enter') {
-				setTimeout(function () {
-					terminalObj._inputLine.textContent = inputField.value
-				}, 1);
 			}
 		}
 		inputField.onkeyup = function (e) {
-			if (PROMPT_TYPE === PROMPT_CONFIRM || e.code === "Enter") {
-				var inputValue = inputField.value;
-				if (PROMPT_TYPE === PROMPT_CONFIRM && (inputValue.toUpperCase()[0] !== 'Y' && inputValue.toUpperCase()[0] !== 'N')) {
-					return true;
+			
+			var inputValue = inputField.value;
+
+			if (shouldDisplayInput && e.code !== 'Enter') {
+				terminalObj._inputLine.textContent = inputField.value;
+			}
+
+			if (PROMPT_TYPE === PROMPT_CONFIRM && e.code !== 'Enter') {
+				if (e.code !== 'KeyY' && e.code !== 'KeyN') { // PROMPT_CONFIRM accept only "Y" and "N" 
+					terminalObj._inputLine.textContent = inputField.value = '';
+					return;
 				}
+				if (terminalObj._inputLine.textContent.length > 1) { // PROMPT_CONFIRM accept only one character
+					terminalObj._inputLine.textContent = inputField.value = terminalObj._inputLine.textContent.substr(-1);
+				}
+			}
+			
+			if (e.code === "Enter") {
+
+				if (PROMPT_TYPE === PROMPT_CONFIRM) {
+					if (!inputValue.length) { // PROMPT_CONFIRM doesn't accept empty string. It requires answer.
+						return;		
+					}
+				}
+				
 				terminalObj._input.style.display = 'none';
 				if (shouldDisplayInput) {
 					terminalObj.print(inputValue);
 				} else {
 					terminalObj.html.removeChild(inputField);	
 				}
+				
 				if (typeof(callback) === 'function') {
 					if (PROMPT_TYPE === PROMPT_CONFIRM) {
-						callback(inputValue.toUpperCase()[0] === 'Y' ? true : false);
+						if (inputValue.toUpperCase()[0] === 'Y') {
+							callback(true);
+						} else if (inputValue.toUpperCase()[0] === 'N') {
+							callback(false);
+						} else {
+							throw `PROMPT_CONFIRM failed: Invalid input (${inputValue.toUpperCase()[0]}})`;
+						}
 					} else {
 						callback(inputValue);
-					};
+					}
 				}
+
 			}
 		}
 		if (firstPrompt) {
