@@ -1,6 +1,9 @@
-/*! terminal.js v2.1-alpha | https://github.com/eosterberg/terminaljs */
+/*! terminal.js | https://github.com/eosterberg/terminaljs */
 
 module.exports = (function () {
+
+	var VERSION = '3.0.0-alpha';
+
 	// PROMPT_TYPE
 	var PROMPT_INPUT = 1, PROMPT_PASSWORD = 2, PROMPT_CONFIRM = 3;
 
@@ -190,6 +193,11 @@ module.exports = (function () {
 			bool = bool.toString().toUpperCase();
 			this._shouldBlinkCursor = (bool === 'TRUE' || bool === '1' || bool === 'YES');
 			return this;
+		}
+
+		this.getVersion = function() {
+			console.info(`TerminalJS ${VERSION}`)
+			return VERSION;
 		}
 
 		this._input.appendChild(this._inputLine);
