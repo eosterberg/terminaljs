@@ -87,6 +87,8 @@ module.exports = (function () {
 					} else {
 						callback(inputValue);
 					}
+					
+					terminalObj.scrollBottom();
 				}
 
 			}
@@ -129,10 +131,15 @@ module.exports = (function () {
 			}, 500);
 		};
 
+		this.scrollBottom = function() {
+			this.html.scrollTop = this.html.scrollHeight;
+		}
+
 		this.print = function (message) {
 			var newLine = document.createElement('div');
 			newLine.textContent = message;
 			this._output.appendChild(newLine);
+			this.scrollBottom();
 			return this;
 		}
 
@@ -208,6 +215,7 @@ module.exports = (function () {
 
 		this.html.style.fontFamily = 'Ubuntu Mono, Monaco, Courier';
 		this.html.style.margin = '0';
+		this.html.style.overflow = 'auto';
 		this._innerWindow.style.padding = '10px';
 		this._input.style.margin = '0';
 		this._output.style.margin = '0';
