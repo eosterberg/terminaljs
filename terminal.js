@@ -71,8 +71,6 @@ module.exports = (function () {
 				terminalObj._input.style.display = 'none';
 				if (shouldDisplayInput) {
 					terminalObj.print(inputValue);
-				} else {
-					terminalObj.html.removeChild(inputField);	
 				}
 				
 				if (typeof(callback) === 'function') {
@@ -87,20 +85,13 @@ module.exports = (function () {
 					} else {
 						callback(inputValue);
 					}
-					
-					terminalObj.scrollBottom();
+					terminalObj.html.removeChild(inputField); // remove input field in the end of each callback	
+					terminalObj.scrollBottom(); // scroll to the bottom of the terminal
 				}
 
 			}
 		}
-		if (firstPrompt) {
-			firstPrompt = false;
-			setTimeout(function () { 
-				inputField.focus()	
-			}, 50);
-		} else {
-			inputField.focus();
-		}
+		inputField.focus();
 	}
 
 
