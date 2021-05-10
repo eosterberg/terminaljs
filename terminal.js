@@ -216,6 +216,7 @@ module.exports = (function () {
 		this.html.style.fontFamily = 'Ubuntu Mono, Monaco, Courier';
 		this.html.style.margin = '0';
 		this.html.style.overflow = 'auto';
+		this.html.style.whiteSpace = 'pre';
 		this._innerWindow.style.padding = '10px';
 		this._input.style.margin = '0';
 		this._output.style.margin = '0';
