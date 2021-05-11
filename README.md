@@ -70,7 +70,7 @@ All the ".set" methods accepts any CSS-compliant value.
 Set to true by default.
 
     .html
-**DEPRECATED** from v. 3.0. This is the top DOM element of the terminal instance. If you want to modify styling via CSS, all instances belong to a .Terminal class. The element will also get the ID from the constructor argument.
+This is the top DOM element of the terminal instance. If you want to modify styling via CSS, all instances belong to a .Terminal class.
 
 ### License
 
