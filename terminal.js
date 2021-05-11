@@ -2,7 +2,7 @@
 
 module.exports = (function () {
 
-	var VERSION = '3.0.1';
+	var VERSION = '3.0.2';
 
 	// PROMPT_TYPE
 	var PROMPT_INPUT = 1, PROMPT_PASSWORD = 2, PROMPT_CONFIRM = 3;
@@ -76,7 +76,35 @@ module.exports = (function () {
 					terminalObj.print(inputValue);
 				}
 				
-				if (typeof(callback) === 'function') {
+				if (terminalObj._backend) {
+					var xhr = new XMLHttpRequest()
+					xhr.open("POST", terminalObj._backend, true);
+					xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+					xhr.onreadystatechange = function() {
+						if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
+							let _respond = xhr.responseText; // mb some extra validation here?
+							let respond = JSON.parse(_respond);
+							if (respond.length !== 2) {
+								throw `Back-end failed: respond suppose to have 2 params but you've got ${respond.length}`;
+							}
+							switch (respond[0]) {
+								case 1:
+									terminalObj.input(respond[1]);
+								break;
+								case 2:
+									terminalObj.password(respond[1]);
+								break;
+								case 3:
+									terminalObj.confirm(respond[1]);
+								break;
+								default:
+									throw `Back-end failed (${terminalObj._backend}) - invalid PROMPT_TYPE: ${respond[0]}`;
+							}
+							terminalObj.scrollBottom(); // scroll to the bottom of the terminal
+						}
+					}
+					xhr.send("command="+encodeURIComponent(inputValue));
+				} else if (typeof(callback) === 'function') {
 					if (PROMPT_TYPE === PROMPT_CONFIRM) {
 						if (inputValue.toUpperCase()[0] === 'Y') {
 							callback(true);
@@ -198,6 +226,16 @@ module.exports = (function () {
 
 		this.setPrompt = function (promptPS) {
 			this._promptPS.textContent = promptPS;
+			return this;
+		}
+
+		this.connect = function(url, showConnectionNotification) {
+			var connectionNotification = ``;
+			this._backend = url;
+			if (showConnectionNotification) {
+				connectionNotification = `Connected to ${url}`;
+			}
+			this.input(connectionNotification);
 			return this;
 		}
 
