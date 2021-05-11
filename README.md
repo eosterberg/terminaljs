@@ -3,6 +3,8 @@ terminaljs
 
 terminal.js is a dead simple JavaScript library for emulating a shell environment.
 
+[Demo](https://www.workshop200.com/terminaljs/)
+
 ### Usage example
 
 ```javascript
@@ -20,8 +22,8 @@ t1.print('This is sample with some additional logic:')
                         t1.password('Enter password:', function (password) {
                             t1.print(`Your name is "${name}" and your email is "${email}" and you have entered password "${password}".`)
                                 .confirm(`Is it true?`, function (didConfirm) {
-                                t1.print(didConfirm ? 'You confirmed!' : 'You declined!')
-                            });
+                                    t1.print(didConfirm ? 'You confirmed!' : 'You declined!')
+                                });
                         });
                         
                     });
@@ -64,8 +66,6 @@ Set to true by default.
 
     .html
 **DEPRECATED** from v. 2.1. This is the top DOM element of the terminal instance. If you want to modify styling via CSS, all instances belong to a .Terminal class. The element will also get the ID from the constructor argument.
-
-Read more at: [erikosterberg.com/terminaljs](http://www.erikosterberg.com/terminaljs)
 
 ### License
 
