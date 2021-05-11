@@ -53,6 +53,9 @@ Displays a confirm message, with a " (y/n)" automatically appended at the end. T
     .clear()
 Clears the screen.
 
+    .setPrompt()
+You can customize your PS1 for the prompt. It can be set and override at any point of time.
+
     .sleep(milliseconds, callback)
 Works exactly like the JavaScript "setTimeout" function. Waits for the number of milliseconds given, then executes the callback.
 
