@@ -57,7 +57,7 @@ Clears the screen.
 Works exactly like the JavaScript "setTimeout" function. Waits for the number of milliseconds given, then executes the callback.
 
     .beep()
-Plays a retro digital tone.
+**DISMISSED** from v. 3.0. Plays a retro digital tone.
 
     .setTextSize()
     .setTextColor()
@@ -70,7 +70,7 @@ All the ".set" methods accepts any CSS-compliant value.
 Set to true by default.
 
     .html
-**DEPRECATED** from v. 2.1. This is the top DOM element of the terminal instance. If you want to modify styling via CSS, all instances belong to a .Terminal class. The element will also get the ID from the constructor argument.
+**DEPRECATED** from v. 3.0. This is the top DOM element of the terminal instance. If you want to modify styling via CSS, all instances belong to a .Terminal class. The element will also get the ID from the constructor argument.
 
 ### License
 
