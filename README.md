@@ -53,6 +53,9 @@ Displays a confirm message, with a " (y/n)" automatically appended at the end. T
     .clear()
 Clears the screen.
 
+    .setPrompt()
+You can customize your PS1 for the prompt. It can be set and override at any point of time.
+
     .sleep(milliseconds, callback)
 Works exactly like the JavaScript "setTimeout" function. Waits for the number of milliseconds given, then executes the callback.
 
@@ -70,7 +73,7 @@ All the ".set" methods accepts any CSS-compliant value.
 Set to true by default.
 
     .html
-**DEPRECATED** from v. 3.0. This is the top DOM element of the terminal instance. If you want to modify styling via CSS, all instances belong to a .Terminal class. The element will also get the ID from the constructor argument.
+This is the top DOM element of the terminal instance. If you want to modify styling via CSS, all instances belong to a .Terminal class.
 
 ### License
 

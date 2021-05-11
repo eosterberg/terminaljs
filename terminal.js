@@ -2,7 +2,7 @@
 
 module.exports = (function () {
 
-	var VERSION = '3.0.0-alpha';
+	var VERSION = '3.0.1';
 
 	// PROMPT_TYPE
 	var PROMPT_INPUT = 1, PROMPT_PASSWORD = 2, PROMPT_CONFIRM = 3;
@@ -107,6 +107,7 @@ module.exports = (function () {
 
 		this._innerWindow = document.createElement('div');
 		this._output = document.createElement('p');
+		this._promptPS = document.createElement('span'); 
 		this._inputLine = document.createElement('span'); //the span element where the users input is put
 		this._cursor = document.createElement('span');
 		this._input = document.createElement('p'); //the full element administering the user input, including cursor
@@ -195,11 +196,17 @@ module.exports = (function () {
 			return this;
 		}
 
+		this.setPrompt = function (promptPS) {
+			this._promptPS.textContent = promptPS;
+			return this;
+		}
+
 		this.getVersion = function() {
 			console.info(`TerminalJS ${VERSION}`)
 			return VERSION;
 		}
 
+		this._input.appendChild(this._promptPS);
 		this._input.appendChild(this._inputLine);
 		this._input.appendChild(this._cursor);
 		this._innerWindow.appendChild(this._output);
