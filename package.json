@@ -1,0 +1,23 @@
+{
+  "name": "terminal-js-emulator",
+  "version": "3.0.0",
+  "description": "terminal.js is a dead simple JavaScript library for emulating a shell environment",
+  "main": "terminal.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/eosterberg/terminaljs.git"
+  },
+  "keywords": [
+    "terminal",
+    "terminaljs"
+  ],
+  "author": "@eosterberg, @commanddotcom",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/eosterberg/terminaljs/issues"
+  },
+  "homepage": "https://github.com/eosterberg/terminaljs#readme"
+}

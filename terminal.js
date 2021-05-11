@@ -1,184 +1,237 @@
-/*! terminal.js v2.0 | (c) 2014 Erik Österberg | https://github.com/eosterberg/terminaljs */
+/*! terminal.js | https://github.com/eosterberg/terminaljs */
 
-var Terminal = (function () {
+module.exports = (function () {
+
+	var VERSION = '3.0.0-alpha';
+
 	// PROMPT_TYPE
-	var PROMPT_INPUT = 1, PROMPT_PASSWORD = 2, PROMPT_CONFIRM = 3
-
-	var fireCursorInterval = function (inputField, terminalObj) {
-		var cursor = terminalObj._cursor
-		setTimeout(function () {
-			if (inputField.parentElement && terminalObj._shouldBlinkCursor) {
-				cursor.style.visibility = cursor.style.visibility === 'visible' ? 'hidden' : 'visible'
-				fireCursorInterval(inputField, terminalObj)
-			} else {
-				cursor.style.visibility = 'visible'
-			}
-		}, 500)
-	}
+	var PROMPT_INPUT = 1, PROMPT_PASSWORD = 2, PROMPT_CONFIRM = 3;
 
 	var firstPrompt = true;
 	promptInput = function (terminalObj, message, PROMPT_TYPE, callback) {
-		var shouldDisplayInput = (PROMPT_TYPE === PROMPT_INPUT)
-		var inputField = document.createElement('input')
+		var shouldDisplayInput = (PROMPT_TYPE === PROMPT_INPUT || PROMPT_TYPE === PROMPT_CONFIRM);
+		var inputField = document.createElement('input');
 
-		inputField.style.position = 'absolute'
-		inputField.style.zIndex = '-100'
-		inputField.style.outline = 'none'
-		inputField.style.border = 'none'
-		inputField.style.opacity = '0'
-		inputField.style.fontSize = '0.2em'
+		inputField.style.position = 'absolute';
+		inputField.style.zIndex = '-100';
+		inputField.style.outline = 'none';
+		inputField.style.border = 'none';
+		inputField.style.opacity = '0';
+		inputField.style.fontSize = '0.2em';
 
-		terminalObj._inputLine.textContent = ''
-		terminalObj._input.style.display = 'block'
-		terminalObj.html.appendChild(inputField)
-		fireCursorInterval(inputField, terminalObj)
+		terminalObj._inputLine.textContent = '';
+		terminalObj._input.style.display = 'block';
+		terminalObj.html.appendChild(inputField);
+		terminalObj.fireCursorInterval(inputField);
 
-		if (message.length) terminalObj.print(PROMPT_TYPE === PROMPT_CONFIRM ? message + ' (y/n)' : message)
+		if (message.length) {
+			terminalObj.print(PROMPT_TYPE === PROMPT_CONFIRM ? message + ' (y/n)' : message);
+		}
 
 		inputField.onblur = function () {
-			terminalObj._cursor.style.display = 'none'
+			terminalObj._cursor.style.display = 'none';
 		}
 
 		inputField.onfocus = function () {
-			inputField.value = terminalObj._inputLine.textContent
-			terminalObj._cursor.style.display = 'inline'
+			inputField.value = terminalObj._inputLine.textContent;
+			terminalObj._cursor.style.display = 'inline';
 		}
 
 		terminalObj.html.onclick = function () {
-			inputField.focus()
+			inputField.focus();
 		}
 		inputField.onkeydown = function (e) {
 			if (e.code === 'ArrowUp' || e.code === 'ArrowRight' || e.code === 'ArrowLeft' || e.code === 'ArrowDown' || e.code === 'Tab') {
-				e.preventDefault()
-			} else if (shouldDisplayInput && e.code !== 'Enter') {
-				setTimeout(function () {
-					terminalObj._inputLine.textContent = inputField.value
-				}, 1)
+				e.preventDefault();
 			}
 		}
 		inputField.onkeyup = function (e) {
-			if (PROMPT_TYPE === PROMPT_CONFIRM || e.which === 13) {
-				terminalObj._input.style.display = 'none'
-				var inputValue = inputField.value
-				if (shouldDisplayInput) terminalObj.print(inputValue)
-				terminalObj.html.removeChild(inputField)
-				if (typeof(callback) === 'function') {
-					if (PROMPT_TYPE === PROMPT_CONFIRM) {
-						callback(inputValue.toUpperCase()[0] === 'Y' ? true : false)
-					} else callback(inputValue)
+			
+			var inputValue = inputField.value;
+
+			if (shouldDisplayInput && e.code !== 'Enter') {
+				terminalObj._inputLine.textContent = inputField.value;
+			}
+
+			if (PROMPT_TYPE === PROMPT_CONFIRM && e.code !== 'Enter') {
+				if (e.code !== 'KeyY' && e.code !== 'KeyN') { // PROMPT_CONFIRM accept only "Y" and "N" 
+					terminalObj._inputLine.textContent = inputField.value = '';
+					return;
+				}
+				if (terminalObj._inputLine.textContent.length > 1) { // PROMPT_CONFIRM accept only one character
+					terminalObj._inputLine.textContent = inputField.value = terminalObj._inputLine.textContent.substr(-1);
 				}
 			}
+			
+			if (e.code === "Enter") {
+
+				if (PROMPT_TYPE === PROMPT_CONFIRM) {
+					if (!inputValue.length) { // PROMPT_CONFIRM doesn't accept empty string. It requires answer.
+						return;		
+					}
+				}
+				
+				terminalObj._input.style.display = 'none';
+				if (shouldDisplayInput) {
+					terminalObj.print(inputValue);
+				}
+				
+				if (typeof(callback) === 'function') {
+					if (PROMPT_TYPE === PROMPT_CONFIRM) {
+						if (inputValue.toUpperCase()[0] === 'Y') {
+							callback(true);
+						} else if (inputValue.toUpperCase()[0] === 'N') {
+							callback(false);
+						} else {
+							throw `PROMPT_CONFIRM failed: Invalid input (${inputValue.toUpperCase()[0]}})`;
+						}
+					} else {
+						callback(inputValue);
+					}
+					terminalObj.html.removeChild(inputField); // remove input field in the end of each callback	
+					terminalObj.scrollBottom(); // scroll to the bottom of the terminal
+				}
+
+			}
 		}
-		if (firstPrompt) {
-			firstPrompt = false
-			setTimeout(function () { inputField.focus()	}, 50)
-		} else {
-			inputField.focus()
-		}
+		inputField.focus();
 	}
 
-	var terminalBeep
 
-	var TerminalConstructor = function (id) {
-		if (!terminalBeep) {
-			terminalBeep = document.createElement('audio')
-			var source = '<source src="http://www.erikosterberg.com/terminaljs/beep.'
-			terminalBeep.innerHTML = source + 'mp3" type="audio/mpeg">' + source + 'ogg" type="audio/ogg">'
-			terminalBeep.volume = 0.05
-		}
+	var TerminalConstructor = function (containerId) {
 
-		this.html = document.createElement('div')
-		this.html.className = 'Terminal'
-		if (typeof(id) === 'string') { this.html.id = id }
+		let terminalObj = this;
 
-		this._innerWindow = document.createElement('div')
-		this._output = document.createElement('p')
-		this._inputLine = document.createElement('span') //the span element where the users input is put
-		this._cursor = document.createElement('span')
-		this._input = document.createElement('p') //the full element administering the user input, including cursor
+		this.html = document.createElement('div');
+		this.html.className = 'Terminal';
 
-		this._shouldBlinkCursor = true
+		this._innerWindow = document.createElement('div');
+		this._output = document.createElement('p');
+		this._inputLine = document.createElement('span'); //the span element where the users input is put
+		this._cursor = document.createElement('span');
+		this._input = document.createElement('p'); //the full element administering the user input, including cursor
+		this._shouldBlinkCursor = true;
 
-		this.beep = function () {
-			terminalBeep.load()
-			terminalBeep.play()
+		this.cursorTimer;
+		this.fireCursorInterval = function (inputField) {
+			if (terminalObj.cursorTimer) { clearTimeout(terminalObj.cursorTimer); }
+			terminalObj.cursorTimer = setTimeout(function () {
+				if (inputField.parentElement && terminalObj._shouldBlinkCursor) {
+					terminalObj._cursor.style.visibility = terminalObj._cursor.style.visibility === 'visible' ? 'hidden' : 'visible';
+					terminalObj.fireCursorInterval(inputField);
+				} else {
+					terminalObj._cursor.style.visibility = 'visible';
+				}
+			}, 500);
+		};
+
+		this.scrollBottom = function() {
+			this.html.scrollTop = this.html.scrollHeight;
 		}
 
 		this.print = function (message) {
-			var newLine = document.createElement('div')
-			newLine.textContent = message
-			this._output.appendChild(newLine)
+			var newLine = document.createElement('div');
+			newLine.textContent = message;
+			this._output.appendChild(newLine);
+			this.scrollBottom();
+			return this;
 		}
 
 		this.input = function (message, callback) {
-			promptInput(this, message, PROMPT_INPUT, callback)
+			promptInput(this, message, PROMPT_INPUT, callback);
+			return this;
 		}
 
 		this.password = function (message, callback) {
-			promptInput(this, message, PROMPT_PASSWORD, callback)
+			promptInput(this, message, PROMPT_PASSWORD, callback);
+			return this;
 		}
 
 		this.confirm = function (message, callback) {
-			promptInput(this, message, PROMPT_CONFIRM, callback)
+			promptInput(this, message, PROMPT_CONFIRM, callback);
+			return this;
 		}
 
 		this.clear = function () {
-			this._output.innerHTML = ''
+			this._output.innerHTML = '';
+			return this;
 		}
 
 		this.sleep = function (milliseconds, callback) {
-			setTimeout(callback, milliseconds)
+			setTimeout(callback, milliseconds);
+			return this;
 		}
 
 		this.setTextSize = function (size) {
-			this._output.style.fontSize = size
-			this._input.style.fontSize = size
+			this._output.style.fontSize = size;
+			this._input.style.fontSize = size;
+			return this;
 		}
 
 		this.setTextColor = function (col) {
-			this.html.style.color = col
-			this._cursor.style.background = col
+			this.html.style.color = col;
+			this._cursor.style.background = col;
+			return this;
 		}
 
 		this.setBackgroundColor = function (col) {
-			this.html.style.background = col
+			this.html.style.background = col;
+			return this;
 		}
 
 		this.setWidth = function (width) {
-			this.html.style.width = width
+			this.html.style.width = width;
+			return this;
 		}
 
 		this.setHeight = function (height) {
-			this.html.style.height = height
+			this.html.style.height = height;
+			return this;
 		}
 
 		this.blinkingCursor = function (bool) {
-			bool = bool.toString().toUpperCase()
-			this._shouldBlinkCursor = (bool === 'TRUE' || bool === '1' || bool === 'YES')
+			bool = bool.toString().toUpperCase();
+			this._shouldBlinkCursor = (bool === 'TRUE' || bool === '1' || bool === 'YES');
+			return this;
 		}
 
-		this._input.appendChild(this._inputLine)
-		this._input.appendChild(this._cursor)
-		this._innerWindow.appendChild(this._output)
-		this._innerWindow.appendChild(this._input)
-		this.html.appendChild(this._innerWindow)
+		this.getVersion = function() {
+			console.info(`TerminalJS ${VERSION}`)
+			return VERSION;
+		}
+
+		this._input.appendChild(this._inputLine);
+		this._input.appendChild(this._cursor);
+		this._innerWindow.appendChild(this._output);
+		this._innerWindow.appendChild(this._input);
+		this.html.appendChild(this._innerWindow);
 
 		this.setBackgroundColor('black')
-		this.setTextColor('white')
-		this.setTextSize('1em')
-		this.setWidth('100%')
-		this.setHeight('100%')
+			.setTextColor('white')
+			.setTextSize('1em')
+			.setWidth('100%')
+			.setHeight('100%');
 
-		this.html.style.fontFamily = 'Monaco, Courier'
-		this.html.style.margin = '0'
-		this._innerWindow.style.padding = '10px'
-		this._input.style.margin = '0'
-		this._output.style.margin = '0'
-		this._cursor.style.background = 'white'
-		this._cursor.innerHTML = 'C' //put something in the cursor..
-		this._cursor.style.display = 'none' //then hide it
-		this._input.style.display = 'none'
+		this.html.style.fontFamily = 'Ubuntu Mono, Monaco, Courier';
+		this.html.style.margin = '0';
+		this.html.style.overflow = 'auto';
+		this.html.style.whiteSpace = 'pre';
+		this._innerWindow.style.padding = '10px';
+		this._input.style.margin = '0';
+		this._output.style.margin = '0';
+		this._cursor.style.background = 'white';
+		this._cursor.innerHTML = 'C'; //put something in the cursor..
+		this._cursor.style.display = 'none'; //then hide it
+		this._input.style.display = 'none';
+
+		if (typeof(containerId) === 'string') { 
+			let container = document.getElementById(containerId);
+			container.innerHTML = "";
+			container.appendChild(this.html);
+		} else {
+			throw "terminal-js-emulator requires (string) parent container id in the constructor";
+		}
 	}
 
-	return TerminalConstructor
+	return TerminalConstructor;
 }())

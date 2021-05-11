@@ -3,14 +3,40 @@ terminaljs
 
 terminal.js is a dead simple JavaScript library for emulating a shell environment.
 
-### Initialization
+**[Demo](https://www.workshop200.com/terminaljs/)**
 
-    var myTerminal = new Terminal(id)
+### Install
+
+`npm i terminal-js-emulator`
+
+
+### Usage example
+
+```javascript
+import Terminal from 'terminal-js-emulator';
+
+let t1 = new Terminal('terminal-1');
+t1.setHeight("400px");
+t1.print('This is sample with some additional logic:')
+    .print(`Are you ready? Let's go!`)
+    .input(`Hi! What's your name?`, function (name) {
+        t1.print(`Welcome, ${name}!`)
+            .sleep(1000, function () {
+                t1.print(`We have more questions to follow.`)
+                    .input(`Enter your email, please:`, function (email) {
+                        t1.password('Enter password:', function (password) {
+                            t1.print(`Your name is "${name}" and your email is "${email}" and you have entered password "${password}".`)
+                                .confirm(`Is it true?`, function (didConfirm) {
+                                    t1.print(didConfirm ? 'You confirmed!' : 'You declined!')
+                                });
+                        });
+                        
+                    });
+        });
+});
+```
 
 ### Properties and methods
-
-    .html
-This is the top DOM element of the terminal instance. If you want to modify styling via CSS, all instances belong to a .Terminal class. The element will also get the ID from the constructor argument.
 
     .print(message)
 Prints the message on a new line.
@@ -43,7 +69,8 @@ All the ".set" methods accepts any CSS-compliant value.
     .blinkingCursor(boolean)
 Set to true by default.
 
-Read more at: [erikosterberg.com/terminaljs](http://www.erikosterberg.com/terminaljs)
+    .html
+**DEPRECATED** from v. 2.1. This is the top DOM element of the terminal instance. If you want to modify styling via CSS, all instances belong to a .Terminal class. The element will also get the ID from the constructor argument.
 
 ### License
 
